@@ -46,8 +46,6 @@ jobs:
           mkdir -p dist/proyectos_memes/semantica_nihilista
           cp -r proyectos_memes/semantica_nihilista/dist/* dist/proyectos_memes/semantica_nihilista
 
-          cp proyectos_memes/index.html dist/index.html
-
       - name: Ver estructura final (debug)
         run: ls -R dist
 
