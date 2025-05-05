@@ -8,7 +8,7 @@
     >
       <button
         @click="close"
-        class="absolute top-2 right-3 text-primary-300 hover:text-primary-100 text-xl"
+        class="absolute top-2 right-3 text-primary-300 hover:text-primary-100 text-xl cursor-pointer transition duration-200 ease-in-out"
       >
         ×
       </button>
@@ -18,7 +18,7 @@
       <p class="italic text-center text-primary-200 mb-4">{{ phrase }}</p>
       <button
         @click="nextPhrase"
-        class="px-3 py-1 bg-primary-600 hover:bg-primary-500 text-sm text-white rounded cursor-pointer transition duration-200 ease-in-out"
+        class="px-3 py-1 bg-primary-600 hover:bg-primary-500 text-sm text-white rounded cursor-pointer transition duration-200 ease-in-out mx-auto block"
       >
         Give me another one
       </button>
