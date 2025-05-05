@@ -30,7 +30,7 @@ jobs:
           )
 
           mkdir -p public/proyectos_memes
-          cp proyectos_memes/index.html public/index.html
+          cp index.html public/index.html
 
           for proyecto in "${proyectos[@]}"
           do
