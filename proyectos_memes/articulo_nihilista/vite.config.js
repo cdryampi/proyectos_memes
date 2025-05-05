@@ -1,4 +1,4 @@
-// proyectos_memes/proyectos_memes/vite.config.js
+// proyectos_memes/articulo_nihilista/vite.config.js
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import tailwindcss from "@tailwindcss/vite";
