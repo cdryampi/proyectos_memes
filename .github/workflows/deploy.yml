@@ -29,17 +29,21 @@ jobs:
       - name: Preparar carpeta final para publicación
         run: |
           mkdir -p dist/proyectos_memes/articulo_nihilista
-          mkdir -p dist/proyectos_memes/cv_nihilista
-          mkdir -p dist/proyectos_memes/footer_nihilista
-          mkdir -p dist/proyectos_memes/nihilismo_banner
-          mkdir -p dist/proyectos_memes/presentacion_nihilista
-          mkdir -p dist/proyectos_memes/semantica_nihilista
-
           cp -r proyectos_memes/articulo_nihilista/dist/* dist/proyectos_memes/articulo_nihilista
+
+          mkdir -p dist/proyectos_memes/cv_nihilista
           cp -r proyectos_memes/cv_nihilista/dist/* dist/proyectos_memes/cv_nihilista
+
+          mkdir -p dist/proyectos_memes/footer_nihilista
           cp -r proyectos_memes/footer_nihilista/dist/* dist/proyectos_memes/footer_nihilista
+
+          mkdir -p dist/proyectos_memes/nihilismo_banner
           cp -r proyectos_memes/nihilismo_banner/dist/* dist/proyectos_memes/nihilismo_banner
+
+          mkdir -p dist/proyectos_memes/presentacion_nihilista
           cp -r proyectos_memes/presentacion_nihilista/dist/* dist/proyectos_memes/presentacion_nihilista
+
+          mkdir -p dist/proyectos_memes/semantica_nihilista
           cp -r proyectos_memes/semantica_nihilista/dist/* dist/proyectos_memes/semantica_nihilista
 
           cp index.html dist/index.html
