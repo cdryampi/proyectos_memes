@@ -7,6 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
 
@@ -14,23 +15,29 @@ jobs:
         with:
           node-version: 20
 
-      - run: |
-          for d in proyectos_memes/*; do
-            cd "$d"
-            npm install
-            npm run build
-            cd ../..
-          done
+      - name: Instalar y compilar todos los proyectos
+        run: |
+          cd articulo_nihilista && npm install && npm run build && cd ..
+          cd cv_nihilista && npm install && npm run build && cd ..
+          cd footer_nihilista && npm install && npm run build && cd ..
+          cd nihilismo_banner && npm install && npm run build && cd ..
+          cd presentacion_nihilista && npm install && npm run build && cd ..
+          cd semantica_nihilista && npm install && npm run build && cd ..
 
-      - run: |
+      - name: Preparar carpeta final para publicar
+        run: |
           mkdir -p dist/proyectos_memes
-          for d in proyectos_memes/*; do
-            name=$(basename "$d")
-            cp -r "$d/dist" "dist/proyectos_memes/$name"
-          done
+          cp -r articulo_nihilista/dist dist/proyectos_memes/articulo_nihilista
+          cp -r cv_nihilista/dist dist/proyectos_memes/cv_nihilista
+          cp -r footer_nihilista/dist dist/proyectos_memes/footer_nihilista
+          cp -r nihilismo_banner/dist dist/proyectos_memes/nihilismo_banner
+          cp -r presentacion_nihilista/dist dist/proyectos_memes/presentacion_nihilista
+          cp -r semantica_nihilista/dist dist/proyectos_memes/semantica_nihilista
           cp index.html dist/index.html
 
-      - uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy a GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+          force_orphan: true # 🔥 esto obliga a crear la rama si no existe
