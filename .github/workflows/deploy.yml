@@ -5,18 +5,8 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        project:
-          - articulo_nihilista
-          - cv_nihilista
-          - footer_nihilista
-          - nihilismo_banner
-          - presentacion_nihilista
-          - semantica_nihilista
 
     steps:
       - name: Checkout code
@@ -27,47 +17,23 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install and Build ${{ matrix.project }}
-        working-directory: proyectos_memes/${{ matrix.project }}
+      - name: Build all Vue projects
         run: |
-          npm install
-          npm run build
-
-      - name: Move Vue Build Output
-        run: |
-          mkdir -p build/proyectos_memes/${{ matrix.project }}
-          mv proyectos_memes/${{ matrix.project }}/dist/* build/proyectos_memes/${{ matrix.project }}
-
-      - name: Save built project for deploy
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-${{ matrix.project }}
-          path: build/proyectos_memes/${{ matrix.project }}
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Download all built artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: build
-
-      - name: Organize build directory
-        run: |
-          mkdir -p build/proyectos_memes
-          cp proyectos_memes/index.html build/index.html
-          # mover los archivos descargados
-          find build -type d -name "build-*" | while read d; do
-            name=$(basename "$d" | sed 's/^build-//')
-            mkdir -p build/proyectos_memes/$name
-            cp -r "$d"/* build/proyectos_memes/$name
+          for dir in articulo_nihilista cv_nihilista footer_nihilista nihilismo_banner presentacion_nihilista semantica_nihilista; do
+            echo "Building $dir"
+            cd proyectos_memes/$dir
+            npm install
+            npm run build
+            mkdir -p ../../../build/proyectos_memes/$dir
+            cp -r dist/* ../../../build/proyectos_memes/$dir
+            cd ../../..
           done
 
-      - name: Deploy to GitHub Pages
+      - name: Copiar index.html principal
+        run: |
+          cp proyectos_memes/index.html build/index.html
+
+      - name: Deploy a GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
