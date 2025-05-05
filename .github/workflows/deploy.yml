@@ -1,39 +1,69 @@
-name: Deploy proyectos_memes
+name: Build and Deploy Nihilist Projects
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main # o la rama principal que uses
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: 🧾 Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: 🔧 Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 18
 
-      - name: Build all Vue projects
+      - name: 📦 Install dependencies for each project
         run: |
-          proyectos=("articulo_nihilista" "cv_nihilista" "footer_nihilista" "nihilismo_banner" "presentacion_nihilista" "semantica_nihilista")
+          projects=(
+            articulo_nihilista
+            cv_nihilista
+            footer_nihilista
+            nihilismo_banner
+            presentacion_nihilista
+            semantica_nihilista
+          )
 
-          for p in "${proyectos[@]}"; do
-            echo "📦 Compilando $p"
-            cd proyectos_memes/$p
+          for proj in "${projects[@]}"
+          do
+            echo "Instalando dependencias en $proj..."
+            cd proyectos_memes/$proj
             npm install
             npm run build
-            mkdir -p ../../../build/proyectos_memes/$p
-            cp -r dist/* ../../../build/proyectos_memes/$p
-            cd ../../..
+            cd ../..
           done
 
-      - name: Deploy a GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build
-          force_orphan: true
+      - name: 🗂️ Organize build output into /docs
+        run: |
+          mkdir -p docs/proyectos_memes
+
+          cp proyectos_memes/index.html docs/index.html
+
+          projects=(
+            articulo_nihilista
+            cv_nihilista
+            footer_nihilista
+            nihilismo_banner
+            presentacion_nihilista
+            semantica_nihilista
+          )
+
+          for proj in "${projects[@]}"
+          do
+            echo "Copiando $proj..."
+            mkdir -p docs/proyectos_memes/$proj
+            cp -r proyectos_memes/$proj/dist/* docs/proyectos_memes/$proj/
+          done
+
+      - name: 🚀 Commit y push a main (para GitHub Pages desde /docs)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs
+          git commit -m "🚀 Deploy desde workflow" || echo "Nada que commitear"
+          git push
