@@ -19,23 +19,17 @@ jobs:
 
       - name: Build all Vue projects
         run: |
-          cd proyectos_memes
           proyectos=("articulo_nihilista" "cv_nihilista" "footer_nihilista" "nihilismo_banner" "presentacion_nihilista" "semantica_nihilista")
 
           for p in "${proyectos[@]}"; do
             echo "📦 Compilando $p"
-            cd $p
+            cd proyectos_memes/$p
             npm install
             npm run build
-            mkdir -p ../../build/proyectos_memes/$p
-            cp -r dist/* ../../build/proyectos_memes/$p
-            cd ..
+            mkdir -p ../../../build/proyectos_memes/$p
+            cp -r dist/* ../../../build/proyectos_memes/$p
+            cd ../../..
           done
-
-      - name: Copiar index.html raíz
-        run: |
-          mkdir -p build
-          cp proyectos_memes/index.html build/index.html
 
       - name: Deploy a GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
