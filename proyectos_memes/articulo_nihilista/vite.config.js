@@ -4,6 +4,6 @@ import vue from "@vitejs/plugin-vue";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  base: "/proyectos_memes/cv_nihilista/",
+  base: "/proyectos_memes/articulo_nihilista/",
   plugins: [vue(), tailwindcss()],
 });
