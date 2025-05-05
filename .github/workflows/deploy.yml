@@ -9,30 +9,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      - name: Instalar y compilar todos los proyectos
+      - name: Instalar y compilar todos los proyectos Vue
         run: |
-          cd articulo_nihilista && npm install && npm run build && cd ..
-          cd cv_nihilista && npm install && npm run build && cd ..
-          cd footer_nihilista && npm install && npm run build && cd ..
-          cd nihilismo_banner && npm install && npm run build && cd ..
-          cd presentacion_nihilista && npm install && npm run build && cd ..
-          cd semantica_nihilista && npm install && npm run build && cd ..
+          cd proyectos_memes/articulo_nihilista && npm install && npm run build && cd ../..
+          cd proyectos_memes/cv_nihilista && npm install && npm run build && cd ../..
+          cd proyectos_memes/footer_nihilista && npm install && npm run build && cd ../..
+          cd proyectos_memes/nihilismo_banner && npm install && npm run build && cd ../..
+          cd proyectos_memes/presentacion_nihilista && npm install && npm run build && cd ../..
+          cd proyectos_memes/semantica_nihilista && npm install && npm run build && cd ../..
 
-      - name: Preparar carpeta final para publicar
+      - name: Preparar carpeta final para publicación
         run: |
           mkdir -p dist/proyectos_memes
-          cp -r articulo_nihilista/dist dist/proyectos_memes/articulo_nihilista
-          cp -r cv_nihilista/dist dist/proyectos_memes/cv_nihilista
-          cp -r footer_nihilista/dist dist/proyectos_memes/footer_nihilista
-          cp -r nihilismo_banner/dist dist/proyectos_memes/nihilismo_banner
-          cp -r presentacion_nihilista/dist dist/proyectos_memes/presentacion_nihilista
-          cp -r semantica_nihilista/dist dist/proyectos_memes/semantica_nihilista
+          cp -r proyectos_memes/articulo_nihilista/dist dist/proyectos_memes/articulo_nihilista
+          cp -r proyectos_memes/cv_nihilista/dist dist/proyectos_memes/cv_nihilista
+          cp -r proyectos_memes/footer_nihilista/dist dist/proyectos_memes/footer_nihilista
+          cp -r proyectos_memes/nihilismo_banner/dist dist/proyectos_memes/nihilismo_banner
+          cp -r proyectos_memes/presentacion_nihilista/dist dist/proyectos_memes/presentacion_nihilista
+          cp -r proyectos_memes/semantica_nihilista/dist dist/proyectos_memes/semantica_nihilista
           cp index.html dist/index.html
 
       - name: Deploy a GitHub Pages
@@ -40,4 +42,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          force_orphan: true # 🔥 esto obliga a crear la rama si no existe
+          force_orphan: true
