@@ -2,13 +2,11 @@ name: Deploy Nihilist Memes
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
 
@@ -16,31 +14,23 @@ jobs:
         with:
           node-version: 20
 
-      - name: Instalar y compilar todos los proyectos
-        run: |
+      - run: |
           for d in proyectos_memes/*; do
-            if [ -f "$d/package.json" ]; then
-              echo "Procesando $d"
-              cd "$d"
-              npm install
-              npm run build
-              cd ../..
-            fi
+            cd "$d"
+            npm install
+            npm run build
+            cd ../..
           done
 
-      - name: Preparar carpeta final
-        run: |
+      - run: |
           mkdir -p dist/proyectos_memes
           for d in proyectos_memes/*; do
             name=$(basename "$d")
-            if [ -d "$d/dist" ]; then
-              cp -r "$d/dist" "dist/proyectos_memes/$name"
-            fi
+            cp -r "$d/dist" "dist/proyectos_memes/$name"
           done
           cp index.html dist/index.html
 
-      - name: Deploy a GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
