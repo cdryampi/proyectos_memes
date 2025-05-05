@@ -1,4 +1,4 @@
-name: Deploy Vue Monorepo
+name: Deploy proyectos_memes
 
 on:
   push:
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -17,21 +17,24 @@ jobs:
         with:
           node-version: 20
 
-      - name: Build all Vue projects
+      - name: Build all Vue projects (modo rata funcional)
         run: |
-          for dir in articulo_nihilista cv_nihilista footer_nihilista nihilismo_banner presentacion_nihilista semantica_nihilista; do
-            echo "Building $dir"
-            cd proyectos_memes/$dir
+          proyectos=("articulo_nihilista" "cv_nihilista" "footer_nihilista" "nihilismo_banner" "presentacion_nihilista" "semantica_nihilista")
+
+          for p in "${proyectos[@]}"; do
+            echo "📦 Compilando $p"
+            cd $p
             npm install
             npm run build
-            mkdir -p ../../../build/proyectos_memes/$dir
-            cp -r dist/* ../../../build/proyectos_memes/$dir
-            cd ../../..
+            mkdir -p ../build/proyectos_memes/$p
+            cp -r dist/* ../build/proyectos_memes/$p
+            cd ..
           done
 
-      - name: Copiar index.html principal
+      - name: Copiar index.html raíz
         run: |
-          cp proyectos_memes/index.html build/index.html
+          mkdir -p build
+          cp index.html build/index.html
 
       - name: Deploy a GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
