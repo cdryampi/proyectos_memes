@@ -1,26 +1,26 @@
-name: Build and Deploy Nihilist Projects
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main # o la rama principal que uses
+      - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🧾 Checkout repo
+      - name: 🧾 Checkout del código
         uses: actions/checkout@v3
 
-      - name: 🔧 Set up Node.js
+      - name: 🔧 Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: 📦 Install dependencies for each project
+      - name: 📦 Instalar y compilar todos los proyectos
         run: |
-          projects=(
+          proyectos=(
             articulo_nihilista
             cv_nihilista
             footer_nihilista
@@ -29,18 +29,23 @@ jobs:
             semantica_nihilista
           )
 
-          for proj in "${projects[@]}"
+          mkdir -p public/proyectos_memes
+          cp proyectos_memes/index.html public/index.html
+
+          for proyecto in "${proyectos[@]}"
           do
-            echo "Instalando dependencias en $proj..."
-            cd proyectos_memes/$proj
-            npm install
+            cd proyectos_memes/$proyecto
+            npm ci
             npm run build
             cd ../..
+
+            mkdir -p public/proyectos_memes/$proyecto
+            cp -r proyectos_memes/$proyecto/dist/* public/proyectos_memes/$proyecto/
           done
-      - name: 🚀 Commit y push a main (para GitHub Pages desde /docs)
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs
-          git commit -m "🚀 Deploy desde workflow" || echo "Nada que commitear"
-          git push
+
+      - name: 🚀 Deploy a gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
