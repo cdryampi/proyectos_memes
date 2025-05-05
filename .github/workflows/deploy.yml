@@ -37,29 +37,6 @@ jobs:
             npm run build
             cd ../..
           done
-
-      - name: 🗂️ Organize build output into /docs
-        run: |
-          mkdir -p docs/proyectos_memes
-
-          cp proyectos_memes/index.html docs/index.html
-
-          projects=(
-            articulo_nihilista
-            cv_nihilista
-            footer_nihilista
-            nihilismo_banner
-            presentacion_nihilista
-            semantica_nihilista
-          )
-
-          for proj in "${projects[@]}"
-          do
-            echo "Copiando $proj..."
-            mkdir -p docs/proyectos_memes/$proj
-            cp -r proyectos_memes/$proj/dist/* docs/proyectos_memes/$proj/
-          done
-
       - name: 🚀 Commit y push a main (para GitHub Pages desde /docs)
         run: |
           git config user.name "github-actions[bot]"
