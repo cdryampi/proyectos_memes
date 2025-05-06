@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@theme {
+  --color-primary: #7c6f64; /* pan viejo / tierra húmeda */
+  --color-primary-100: #f5f3f0; /* harina reciclada */
+  --color-primary-200: #e0dcd6; /* pared sin pintar */
+  --color-primary-300: #cbc5bb; /* pobreza matte */
+  --color-primary-400: #a8a096; /* mugre elegante */
+  --color-primary-500: #7c6f64; /* tono base: austeridad visual */
+  --color-primary-600: #5e544c; /* dignidad en sombra */
+  --color-primary-700: #453d37; /* gris subsidio */
+  --color-primary-800: #2c2723; /* carbón de fogata dev */
+  --color-primary-900: #141211; /* consola encendida en la noche */
+  --color-primary-950: #000000; /* blackout bancario */
+}
