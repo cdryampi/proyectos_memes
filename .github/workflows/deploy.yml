@@ -5,8 +5,7 @@ on:
     branches:
       - main
 env:
-  VITE_GITHUB_TOKEN: ${{ secrets.VITE_GITHUB_TOKEN }}
-  VITE_API_URL: ${{ secrets.VITE_API_URL }}
+  VITE_BASE_BACKEND_URL: ${{ secrets.VITE_BASE_BACKEND_URL }}
 jobs:
   deploy:
     runs-on: ubuntu-latest

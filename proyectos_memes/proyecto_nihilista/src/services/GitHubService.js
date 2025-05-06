@@ -1,16 +1,14 @@
 import axios from "axios";
 
-export async function obtenerRepos(usuario = "cdryampi") {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}`,
-    },
-  };
+export async function obtenerRepos() {
+  const API_URL = import.meta.env.VITE_BASE_BACKEND_URL + "repos/";
+
   try {
-    const response = await axios.get(
-      `https://api.github.com/users/${usuario}/repos?per_page=100&page=1`,
-      config
-    );
+    const response = await axios.get(API_URL, {
+      headers: new Headers({
+        "ngrok-skip-browser-warning": "69420",
+      }),
+    });
     return response.data;
   } catch (error) {
     console.error("Error al obtener repos de GitHub:", error);

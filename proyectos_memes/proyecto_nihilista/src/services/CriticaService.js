@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_BASE_BACKEND_URL + "critica/";
 
 export async function obtenerCriticaCruel({
   nombre,
@@ -18,6 +18,9 @@ export async function obtenerCriticaCruel({
       estrellas,
       forks,
       issues,
+      headers: new Headers({
+        "ngrok-skip-browser-warning": "69420",
+      }),
     });
 
     return response.data.critica || "Sin respuesta.";

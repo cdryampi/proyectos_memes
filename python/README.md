@@ -11,6 +11,7 @@ Este backend está pensado para proyectos educativos o memes. Se conecta con un 
 - Python 3.8+
 - Flask
 - flask-cors
+- python-dotenv
 - requests
 - LM Studio corriendo con un modelo Instruct (ej. `mistral-7b-instruct-v0.3`)
 
@@ -18,4 +19,19 @@ Este backend está pensado para proyectos educativos o memes. Se conecta con un 
 
 ```bash
 pip install flask flask-cors requests
+```
+
+## Iniciar el ngrok
+
+```bash
+ngrok http 5000
+```
+
+## memes:
+
+```javaScript
+    // Metelo en la llamada fetch o del axios
+      headers: new Headers({
+        "ngrok-skip-browser-warning": "69420",
+      }),
 ```
