@@ -7,7 +7,7 @@
       @click="modal.open"
       class="mt-4 px-4 py-2 bg-primary-700 hover:bg-primary-600 text-white rounded shadow-md"
     >
-      Why don't they hire me?
+      Why they rejected me?
     </button>
     <!-- Experiencia -->
     <ExperienceBlock :items="data.experience" />
