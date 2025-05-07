@@ -29,6 +29,7 @@ jobs:
             presentacion_nihilista
             semantica_nihilista
             proyecto_nihilista
+            mi_yo_nihilista
           )
 
           mkdir -p public/proyectos_memes
